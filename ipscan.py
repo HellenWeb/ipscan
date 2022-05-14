@@ -22,13 +22,13 @@ class IPScan:
             console.print(f'Region: {ip["regionName"]}\n', style="bold blue")
             console.print(f'City: {ip["city"]}\n', style="bold blue")
             console.print(f'Time Zone: {ip["timezone"]}\n\n', style="bold blue")
-            with open("ipInfo.txt", "w") as f:
+            with open("ip-info.txt", "w") as f:
                 f.write(
                     f'Country: {ip["country"]}\nRegion: {ip["regionName"]}\nCity: {ip["city"]}\nTime Zone: {ip["timezone"]}'
                 )
                 console.print(
-                    "All information ip ([bold green]ipInfo.txt[/bold green])",
-                    style="bold red",
+                    "All information ip ([bold green]ip-info.txt[/bold green])",
+                    style="bold blue",
                 )
         except requests.exceptions.ConnectionError as e:
             console.print("[*] No internet connection", style="bold red")
