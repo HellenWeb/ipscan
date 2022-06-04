@@ -1,6 +1,0 @@
-Country: Russia
-Region: St.-Petersburg
-City: St Petersburg
-Time Zone: Europe/Moscow
-ISP: TimeWeb Ltd.
-Organization: TimeWeb Ltd

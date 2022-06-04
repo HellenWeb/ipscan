@@ -5,36 +5,38 @@ import sys
 from rich.console import Console
 import argparse
 from time import sleep
+from dataclasses import dataclass
 
 # Logic
 
 
+@dataclass
 class IPScan:
-    def __init__(self, addr):
-        self.ip = addr
+    ip: str
 
-    def start(self):
-        try:
-            ip = requests.get(f"http://ip-api.com/json/{self.ip}").json()
-            with console.status("Show info...") as status:
-                sleep(1)
-            console.print(f'\n\nCountry: {ip["country"]}\n', style="bold blue")
-            console.print(f'Region: {ip["regionName"]}\n', style="bold blue")
-            console.print(f'City: {ip["city"]}\n', style="bold blue")
-            console.print(f'Time Zone: {ip["timezone"]}\n', style="bold blue")
-            console.print(f'ISP: {ip["isp"]}\n', style="bold blue")
-            console.print(f'Organization: {ip["org"]}\n\n', style="bold blue")
-            with open("ip-info.txt", "w") as f:
-                f.write(
-                        f'Country: {ip["country"]}\nRegion: {ip["regionName"]}\nCity: {ip["city"]}\nTime Zone: {ip["timezone"]}\nISP: {ip["isp"]}\nOrganization: {ip["org"]}'
-                )
-                console.print(
-                    "All information ip ([bold green]ip-info.txt[/bold green])",
-                    style="bold yellow",
-                )
-        except requests.exceptions.ConnectionError as e:
-            console.print("[*] No internet connection", style="bold red")
-            sys.exit(1)
+
+def get_info(ips: IPScan):
+    try:
+        ip = requests.get(f"http://ip-api.com/json/{ips.ip}").json()
+        with console.status("Show info...") as status:
+            sleep(1)
+        console.print(f'\n\nCountry: {ip["country"]}\n', style="bold blue")
+        console.print(f'Region: {ip["regionName"]}\n', style="bold blue")
+        console.print(f'City: {ip["city"]}\n', style="bold blue")
+        console.print(f'Time Zone: {ip["timezone"]}\n', style="bold blue")
+        console.print(f'ISP: {ip["isp"]}\n', style="bold blue")
+        console.print(f'Organization: {ip["org"]}\n\n', style="bold blue")
+        with open("ip-info.txt", "w") as f:
+            f.write(
+                f'Country: {ip["country"]}\nRegion: {ip["regionName"]}\nCity: {ip["city"]}\nTime Zone: {ip["timezone"]}\nISP: {ip["isp"]}\nOrganization: {ip["org"]}'
+            )
+        console.print(
+            "All information ip ([bold green]ip-info.txt[/bold green])",
+            style="bold yellow",
+        )
+    except requests.exceptions.ConnectionError as e:
+        console.print("[*] No internet connection", style="bold red")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
@@ -66,6 +68,5 @@ if __name__ == "__main__":
 
     # Class
 
-    ipscan = IPScan(addr)
-    ipscan.start()
+    get_info(IPScan(ip=addr))
     sys.exit(1)
